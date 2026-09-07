@@ -42,6 +42,9 @@ import {
 type CSSVars = CSSProperties &
   Record<`--${string}`, string | number | undefined>;
 
+const publicAsset = (path: string) =>
+  `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+
 export function resolveSceneShot(
   title: string,
   text: string,
@@ -365,15 +368,15 @@ function Scene({
 }) {
   const sceneImages: Record<string, string[]> = {
     "عصر کشاورزی": [
-      "/scene-v2-land.webp",
-      "/scene-v2-barter.webp",
+      publicAsset("/scene-v2-land.webp"),
+      publicAsset("/scene-v2-barter.webp"),
     ],
-    "عصر صنعت": ["/scene-v2-industry.webp"],
-    "مسیر سنتی توزیع": ["/scene-v2-distribution.webp"],
-    "عصر ارتباطات": ["/scene-v2-communication.webp"],
-    "فروش مستقیم": ["/scene-v2-direct.webp"],
-    "چرخش سود": ["/scene-v2-direct.webp"],
-    "نتورک سالم یا هرمی؟": ["/scene-v2-network.webp"],
+    "عصر صنعت": [publicAsset("/scene-v2-industry.webp")],
+    "مسیر سنتی توزیع": [publicAsset("/scene-v2-distribution.webp")],
+    "عصر ارتباطات": [publicAsset("/scene-v2-communication.webp")],
+    "فروش مستقیم": [publicAsset("/scene-v2-direct.webp")],
+    "چرخش سود": [publicAsset("/scene-v2-direct.webp")],
+    "نتورک سالم یا هرمی؟": [publicAsset("/scene-v2-network.webp")],
   };
   const sceneShots = sceneImages[title];
   return (
@@ -421,6 +424,26 @@ function Scene({
         {children}
       </div>
     </section>
+  );
+}
+
+function FixedScenePhoto({ src }: { src: string }) {
+  return (
+    <>
+      <div className="scene-photo" aria-hidden="true">
+        <Image
+          className="depth-back"
+          src={publicAsset(src)}
+          alt=""
+          fill
+          sizes="(max-width: 767px) 100vw, 1180px"
+          unoptimized
+        />
+        <span className="depth-mid" />
+        <span className="depth-front" />
+      </div>
+      <div className="scene-reading-fade" aria-hidden="true" />
+    </>
   );
 }
 
@@ -641,7 +664,7 @@ export default function StoryExperience() {
       <div className="journey-backdrop" aria-hidden="true">
         <Image
           className="journey-image"
-          src="/cinema-00-intro.webp"
+          src={publicAsset("/cinema-00-intro.webp")}
           alt=""
           fill
           priority
@@ -718,6 +741,7 @@ export default function StoryExperience() {
         </div>
       </section>
       <section className="story-section thesis" data-chapter="مقدمه">
+        <FixedScenePhoto src="/scene-v2-evolution.webp" />
         <div className="content-shell centered">
           <Reveal>
             <p>در هر دوره، مردم با یک مسئله تازه روبه‌رو شدند.</p>
@@ -1192,7 +1216,7 @@ export default function StoryExperience() {
         <div className="scene-photo bank-scene" aria-hidden="true">
           <Image
             className="depth-back"
-            src="/scene-v2-banks.webp"
+            src={publicAsset("/scene-v2-banks.webp")}
             alt=""
             fill
             sizes="100vw"
@@ -1241,6 +1265,7 @@ export default function StoryExperience() {
         className="story-section leverage"
         data-chapter="هوش مالی، زمان و اهرم"
       >
+        <FixedScenePhoto src="/scene-v2-leverage.webp" />
         <div className="content-shell">
           <Reveal>
             <Label n="ادامه ترتیب PDF">هوش مالی، زمان و اهرم</Label>
@@ -1305,7 +1330,7 @@ export default function StoryExperience() {
         <div className="scene-photo bank-scene" aria-hidden="true">
           <Image
             className="depth-back"
-            src="/scene-v2-banks.webp"
+            src={publicAsset("/scene-v2-banks.webp")}
             alt=""
             fill
             sizes="100vw"
@@ -1369,6 +1394,7 @@ export default function StoryExperience() {
         </div>
       </section>
       <section className="finale story-section" data-chapter="جمع‌بندی">
+        <FixedScenePhoto src="/scene-v2-finale.webp" />
         <div className="content-shell centered">
           <Reveal>
             <Sprout className="final-icon" />
